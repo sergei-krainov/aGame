@@ -13,8 +13,11 @@ public:
     //using Cell::Cell;
     Bot(quint32 x, quint32 y, World *world);
 
+    quint32 DoStep(qint32, qint32);
     quint32 StepRight();
-
+    quint32 StepLeft();
+    quint32 StepUp();
+    quint32 StepDown();
 };
 
 #endif // BOT_H

@@ -4,9 +4,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QVBoxLayout>
-
-
-
 #include <QGraphicsRectItem>
 #include <QTimer>
 
@@ -16,13 +13,12 @@
 #define TILESIDE 25
 #define NUMCELLS 100
 
-enum tile_type {EMPTY, WALL, BOT};
+//enum tile_type {EMPTY, WALL, BOT};
+
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-    qDebug() << "TEST";
 
     Game * game = new Game;
 

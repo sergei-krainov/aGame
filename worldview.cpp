@@ -5,15 +5,15 @@ WorldView::WorldView(World * world)
 {
     _world = world;
 
-    quint32 i, j;
+    qint32 i, j;
     scene = new QGraphicsScene;
 
     for (i = 0; i < world->getColumns(); ++i) {
             for (j = 0; j < world->getRows(); ++j) {
                 Cell * tmp = world->getCell(i,j);
 
-                qDebug() << "i = " << i << "; j = " << j;
-                qDebug() << "Type is " << tmp->getType();
+                //qDebug() << "i = " << i << "; j = " << j;
+                //qDebug() << "Type is " << tmp->getType();
 
                 switch(tmp->getType()) {
                 case WALL:
@@ -48,7 +48,7 @@ WorldView::WorldView(World * world)
 
 void WorldView::update()
 {
-    quint32 i, j;
+    qint32 i, j;
 
     for (i = 0; i < _world->getColumns(); ++i) {
             for (j = 0; j < _world->getRows(); ++j) {
