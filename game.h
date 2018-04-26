@@ -19,8 +19,11 @@ private:
     //QMap<int, QString> Cellmap;
     //static QHash<qint32, QString> CellTypeHash;
     //QHash<QString, QColor> CellColor;
+    World * _world;
+    WorldView * _view;
 public:
     Game();
+    void start();
     //Cell *cells[columns][rows];
 };
 

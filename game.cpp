@@ -4,10 +4,16 @@
 
 Game::Game()
 {
-    World * world = new World();
-    WorldView * view = new WorldView(world);
+    //World * world = new World();
+    //WorldView * view = new WorldView(world);
 
-    Bot * bot1 = new Bot(0,0,world);
+    _world = new World;
+    _view = new WorldView(_world);
+}
+
+void Game::start()
+{
+    Bot * bot1 = new Bot(0,0,_world);
     bot1->setType(BOT);
     //bot1->getPoint();
 
@@ -26,5 +32,5 @@ Game::Game()
     bot1->StepLeft();
     bot1->StepDown();
 
-    view->update();
+    _view->update();
 }

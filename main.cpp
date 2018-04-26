@@ -22,10 +22,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    qDebug() << "TEST";
-
     Game * game = new Game;
-
+    game->start();
 
     return a.exec();
 }

@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QHash>
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -21,6 +22,8 @@ private:
     //quint32 map[WIDTH/TILESIDE][HEIGHT/TILESIDE];
     Cell *cells[columns][rows];
 
+    //QHash<qint32, QColor> ColorHash;
+
     //QGraphicsRectItem * cells[columns][rows];
 
     //QGraphicsScene * scene;
@@ -29,9 +32,9 @@ private:
     //enum tile_type {EMPTY, WALL, BOT, UNKNOWN};
 public:
     World();
-    quint32 getColumns() {return columns;}
-    quint32 getRows() {return rows;}
-    Cell *getCell(quint32, quint32);
+    qint32 getColumns() {return columns;}
+    qint32 getRows() {return rows;}
+    Cell *getCell(qint32, qint32);
     void setCell(Cell*);
 };
 

@@ -6,7 +6,11 @@ World::World()
 {
     quint32 i,j;
 
-
+    //QHash<qint32, QColor> ColorHash
+    //ColorHash.insert(0, Qt::white);
+    //ColorHash.insert(1, Qt::black);
+    //ColorHash.insert(2, Qt::red);
+    //ColorHash.insert(3, Qt::blue);
 
     quint32 tile_map[columns][rows] = {
         1,0,1,0,1,0
@@ -21,11 +25,12 @@ World::World()
             cells[i][j] = new Cell(i,j);
             cells[i][j]->setRect(i * TILESIDE, j * TILESIDE, TILESIDE, TILESIDE);
             cells[i][j]->setType(tile_map[i][j]);
+            //cells[i][j]->setBrush(QBrush(ColorHash[tile_map[i][j]]));
         }
     }
 }
 
-Cell *World::getCell(quint32 x, quint32 y)
+Cell *World::getCell(qint32 x, qint32 y)
 {
     return cells[x][y];
 }
@@ -34,7 +39,7 @@ void World::setCell(Cell * cell)
 {
     //cell->setType();
 
-    quint32 x, y;
+    qint32 x, y;
     x = cell->getPoint().x();
     y = cell->getPoint().y();
 
