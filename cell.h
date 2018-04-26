@@ -1,35 +1,29 @@
 #ifndef CELL_H
 #define CELL_H
 
+#include <QApplication>
 #include <QGraphicsRectItem>
-#include <QHash>
-#include "world.h"
+#include <QPoint>
 
-//enum CELLTYPE {FREE, WALL, BOT, UNKNOWN};
-
-//static QHash<qint32, QString> CellTypeHash;
-//QHash<QString, QColor> CellColor;
-
+enum CELLTYPE {FREE, WALL, BOT, UNKNOWN};
 
 class Cell: public QGraphicsRectItem
 {
 private:
+    //QPoint point;
 
 protected:
     QPoint point;
-    //enum CELLTYPE type;
-    quint32 ntype;
-    QString stype;
+    enum CELLTYPE type;
 
 public:
-    //Cell(qint32 x = 0, qint32 y = 0, qint32 t = 0) :
-    //    point(QPoint(x,y)),stype(World::CellTypeHash1[t])
-    //{}
-    Cell(qint32 x = 0, qint32 y = 0, qint32 t = 0);
+    Cell(quint32 x = 0, quint32 y = 0, CELLTYPE t = FREE) :
+        point(QPoint(x,y)),type(t)
+    {}
 
     QPoint getPoint() {return point;}
     void setPoint(QPoint);
-    quint32 getType() {return ntype;}
+    quint32 getType() {return type;}
     void setType(quint32);
 };
 
