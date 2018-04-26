@@ -8,9 +8,9 @@ Game::Game()
     WorldView * view = new WorldView(world);
 
     /* Cellmap.insert(0,"FREE");
-    Cellmap.insert(1,"WALL");
-    Cellmap.insert(2,"BOT");
-    Cellmap.insert(3,"UNKNOWN"); */
+       Cellmap.insert(1,"WALL");
+       Cellmap.insert(2,"BOT");
+       Cellmap.insert(3,"UNKNOWN"); */
 
     Bot * bot1 = new Bot(0,0,world);
     bot1->setType(BOT);

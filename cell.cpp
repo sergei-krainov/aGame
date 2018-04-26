@@ -1,5 +1,13 @@
 #include "cell.h"
 
+Cell::Cell(qint32 x = 0, qint32 y = 0, qint32 t = 0)
+{
+    //point(QPoint(x,y)),stype(World::CellTypeHash1[t])
+    point = QPoint(x,y);
+    ntype = t;
+    stype = World::CellTypeHash1[t];
+}
+
 void Cell::setPoint(QPoint p)
 {
     point = p;
