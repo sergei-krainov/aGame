@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QVBoxLayout>
 #include <QGraphicsView>
+#include <QPlainTextEdit>
 #include "world.h"
 
 class WorldView
@@ -13,6 +14,7 @@ private:
     QGraphicsScene * scene;
     QVBoxLayout * mainLayout;
     QGraphicsView * view;
+    QPlainTextEdit * eventsText;
     World * _world;
 public:
     WorldView(World * world);

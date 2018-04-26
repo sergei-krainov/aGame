@@ -33,7 +33,23 @@ WorldView::WorldView(World * world)
                 //scene->addItem(tmp);
                 scene->addItem(world->getCell(i,j));
             }
+
     }
+
+
+    //eventsText = scene->addText("Hello");
+    //eventsText
+    //eventsText->setPos(i * world->getTileside(), 0);
+
+    eventsText = new QPlainTextEdit();
+    //eventsText->anchorAt(QPoint(i * world->getTileside(),0));
+    eventsText->document()->setPlainText("Hello");
+    eventsText->setGeometry(i * world->getTileside(), 0, 100, world->getRows() * world->getTileside());
+
+    scene->addWidget(eventsText);
+
+
+    //scene->addText(eventsText);
 
 
 
@@ -44,7 +60,7 @@ WorldView::WorldView(World * world)
 
     mainLayout->addWidget(view);
     view->show();
-    view->setFixedSize(800, 600);
+    //view->setFixedSize(800, 600);
 }
 
 void WorldView::update()

@@ -34,6 +34,7 @@ public:
     World();
     qint32 getColumns() {return columns;}
     qint32 getRows() {return rows;}
+    qint32 getTileside() {return TILESIDE;}
     Cell *getCell(qint32, qint32);
     void setCell(Cell*);
 };
