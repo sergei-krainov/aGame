@@ -5,12 +5,19 @@ WorldView::WorldView(World * world)
 {
     _world = world;
 
-    qint32 i, j;
-    scene = new QGraphicsScene;
+    qint32 i, j, tileside, columns, rows;
 
-    for (i = 0; i < world->getColumns(); ++i) {
-            for (j = 0; j < world->getRows(); ++j) {
-                //Cell * tmp = world->getCell(i,j);
+    scene = new QGraphicsScene;
+    mainLayout = new QVBoxLayout;
+    tileside = _world->getTileside();
+    columns  = _world->getColumns();
+    rows     = _world->getRows();
+
+    QPlainTextEdit * eventsText = _world->eventsText;
+
+    for (i = 0; i < columns; ++i) {
+            for (j = 0; j < rows; ++j) {
+                //Cell * tmp = _world->getCell(i,j);
 
                 /* //qDebug() << "i = " << i << "; j = " << j;
                 //qDebug() << "Type is " << tmp->getType();
@@ -31,7 +38,7 @@ WorldView::WorldView(World * world)
                 } */
 
                 //scene->addItem(tmp);
-                scene->addItem(world->getCell(i,j));
+                scene->addItem(_world->getCell(i,j));
             }
 
     }
@@ -41,19 +48,35 @@ WorldView::WorldView(World * world)
     //eventsText
     //eventsText->setPos(i * world->getTileside(), 0);
 
-    eventsText = new QPlainTextEdit();
+    //eventsText = new QPlainTextEdit();
     //eventsText->anchorAt(QPoint(i * world->getTileside(),0));
-    eventsText->document()->setPlainText("Hello");
-    eventsText->setGeometry(i * world->getTileside(), 0, 100, world->getRows() * world->getTileside());
+    /* QFont f1 = eventsText->font();
+    QFontMetrics fm(f1);
+    f1.setPointSize(18);
+    eventsText->setFont(f1); */
 
-    scene->addWidget(eventsText);
+    //eventsText->setFont("Helvetica Neue");
+
+    QFont hnFont("Helvetica [Cronyx]", 12);
+    eventsText->setFont(hnFont);
+
+    eventsText->document()->setPlainText("Hello");
+    eventsText->setGeometry(i * tileside, 0, EVENTSWIDTH, rows * tileside);
+    //eventsText->setMinimumSize(50, 50);
+
+    eventsText->appendPlainText("Text");
+
+
+
+
+    scene->addWidget(_world->eventsText);
 
 
     //scene->addText(eventsText);
 
 
 
-    mainLayout = new QVBoxLayout;
+    //mainLayout = new QVBoxLayout;
     view = new QGraphicsView(scene);
     view->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
     view->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );

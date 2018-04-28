@@ -44,6 +44,8 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
         this->setType(BOT);
 
         _world->setCell(this);
+
+        _world->eventsText->appendPlainText("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
     }
     else {
         return 1;

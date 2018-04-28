@@ -4,9 +4,6 @@
 
 Game::Game()
 {
-    //World * world = new World();
-    //WorldView * view = new WorldView(world);
-
     _world = new World;
     _view = new WorldView(_world);
 }

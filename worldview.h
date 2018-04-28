@@ -8,16 +8,18 @@
 #include <QPlainTextEdit>
 #include "world.h"
 
+#define EVENTSWIDTH 200
+
 class WorldView
 {
 private:
     QGraphicsScene * scene;
     QVBoxLayout * mainLayout;
     QGraphicsView * view;
-    QPlainTextEdit * eventsText;
+    //QPlainTextEdit * eventsText;
     World * _world;
 public:
-    WorldView(World * world);
+    WorldView(World *world);
     void update();
 };
 

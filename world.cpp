@@ -12,8 +12,10 @@ World::World()
     //ColorHash.insert(2, Qt::red);
     //ColorHash.insert(3, Qt::blue);
 
+    eventsText = new QPlainTextEdit();;
+
     quint32 tile_map[columns][rows] = {
-        1,0,1,0,1,0
+        1,0,1,0,1,0,5,2,3,6
     };
 
 

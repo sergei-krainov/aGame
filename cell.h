@@ -6,7 +6,7 @@
 #include <QPoint>
 #include <QBrush>
 
-enum CELLTYPE {FREE, WALL, BOT, UNKNOWN};
+enum CELLTYPE {FREE, WALL, BOT, YUMMY, UNKNOWN};
 
 class Cell: public QGraphicsRectItem
 {
