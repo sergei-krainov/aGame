@@ -9,6 +9,7 @@
 Bot::Bot(quint32 x, quint32 y, World *world)
 {
     this->setPoint(QPoint(x,y));
+    this->setType(BOT);
     _world = world;
 }
 

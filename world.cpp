@@ -12,7 +12,9 @@ World::World()
     //ColorHash.insert(2, Qt::red);
     //ColorHash.insert(3, Qt::blue);
 
-    eventsText = new QPlainTextEdit();;
+    changedCells = new QStack<Cell*>;
+
+    eventsText = new QPlainTextEdit();
 
     quint32 tile_map[columns][rows] = {
         1,0,1,0,1,0,5,2,3,6
@@ -25,8 +27,9 @@ World::World()
             //qDebug() << "i = " << i << "; j = " << j;
             //qDebug() << "Tile is " << tile_map[i][j];
             cells[i][j] = new Cell(i,j);
-            cells[i][j]->setRect(i * TILESIDE, j * TILESIDE, TILESIDE, TILESIDE);
+            //cells[i][j]->setRect(i * TILESIDE, j * TILESIDE, TILESIDE, TILESIDE);
             cells[i][j]->setType(tile_map[i][j]);
+            changedCells->push(cells[i][j]);
             //cells[i][j]->setBrush(QBrush(ColorHash[tile_map[i][j]]));
         }
     }
@@ -45,11 +48,12 @@ void World::setCell(Cell * cell)
     x = cell->getPoint().x();
     y = cell->getPoint().y();
 
-    this->cells[x][y]->setType(cell->getType());
+    //this->cells[x][y]->setType(cell->getType());
     //this->cells[x][y]->setBrush(QBrush(Qt::red));
     //cell->getType();
 
 
 
     this->cells[x][y]->setType(cell->getType());
+    changedCells->push(cells[x][y]);
 }

@@ -9,6 +9,7 @@
 #include <QGraphicsScene>
 #include <QHash>
 #include <QPlainTextEdit>
+#include <QStack>
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -23,6 +24,8 @@ private:
     //quint32 map[WIDTH/TILESIDE][HEIGHT/TILESIDE];
     Cell *cells[columns][rows];
 
+    //QStack<Cell*> * changedCells;
+
 
     //QHash<qint32, QColor> ColorHash;
 
@@ -36,6 +39,7 @@ public:
     World();
 
     QPlainTextEdit * eventsText;
+    QStack<Cell*> * changedCells;
 
     qint32 getColumns() {return columns;}
     qint32 getRows() {return rows;}

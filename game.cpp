@@ -11,7 +11,7 @@ Game::Game()
 void Game::start()
 {
     Bot * bot1 = new Bot(0,0,_world);
-    bot1->setType(BOT);
+    //bot1->setType(BOT);
     //bot1->getPoint();
 
     //bot1->StepLeft();
