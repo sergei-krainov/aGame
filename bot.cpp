@@ -17,11 +17,24 @@ Bot::Bot(quint32 x, quint32 y, World *world)
     this->setType(BOT);
     _world = world;
 
+    area = pow(VISIBILITY*2,2);
+
+    qDebug() << "Area is " << area;
+
+    surroundings.reserve(area);
+
+    for (qint32 x = -VISIBILITY;x <= VISIBILITY;++x) {
+        for (qint32 y = -VISIBILITY;y <= VISIBILITY;++y) {
+            qDebug() << "x:y" << x << y;
+            surroundings.append(QVector<qint32>{x,y});
+        }
+    }
+
     //surroundings = new QVector< QVector<qint32> >(12);
     //surroundings->append(QVector<qint32>{0,-2});
 }
 
-QVector<QVector<qint32> > Bot::initSurroundings()
+/* QVector<QVector<qint32> > Bot::initSurroundings()
 {
     QVector< QVector<qint32> > tmp;// = new QVector< QVector<qint32> >(12);;
     tmp.reserve(AREA);
@@ -37,7 +50,7 @@ QVector<QVector<qint32> > Bot::initSurroundings()
     return tmp;
 }
 
-QVector<QVector<qint32> > Bot::surroundings = Bot::initSurroundings();
+QVector<QVector<qint32> > Bot::surroundings = Bot::initSurroundings(); */
 
 quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
 {
@@ -45,8 +58,11 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
     Cell * target;
 
 
-    x = this->getPoint().x();
-    y = this->getPoint().y();
+    //x = this->getPoint().x();
+    //y = this->getPoint().y();
+
+    x = this->getX();
+    y = this->getY();
 
     nx = x + xbias;
     ny = y + ybias;
@@ -85,7 +101,7 @@ QVector<qint32> *Bot::getSurroundings()
     qint32 x, y, nx, ny;
     Cell * tmpCell;
     QVector<qint32> * vec = new QVector<qint32>;
-    vec->reserve(AREA);
+    vec->reserve(area);
 
 
     x = this->getX();
@@ -106,8 +122,10 @@ QVector<qint32> *Bot::getSurroundings()
     }
 
 
-    //for (QVector<qint32>::const_iterator it = vec->begin(); it != vec->end();++it)
-    //    qDebug() << "vec is " << *it;
+    for (QVector<qint32>::const_iterator it = vec->begin(); it != vec->end();++it)
+        qDebug() << "vec is " << *it;
+
+    qDebug() << "Ended!";
 
     return vec;
 }

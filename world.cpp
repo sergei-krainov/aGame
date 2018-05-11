@@ -51,13 +51,11 @@ void World::setCell(Cell * cell)
     //cell->setType();
 
     qint32 x, y;
-    x = cell->getPoint().x();
-    y = cell->getPoint().y();
+    //x = cell->getPoint().x();
+    //y = cell->getPoint().y();
 
-    //this->cells[x][y]->setType(cell->getType());
-    //this->cells[x][y]->setBrush(QBrush(Qt::red));
-    //cell->getType();
-
+    x = cell->getX();
+    y = cell->getY();
 
 
     this->cells[x][y]->setType(cell->getType());

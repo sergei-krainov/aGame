@@ -6,7 +6,6 @@
 #include "world.h"
 
 #define VISIBILITY 2
-#define AREA (VISIBILITY*2)^2
 
 class Bot : public Cell
 {
@@ -28,8 +27,9 @@ private:
                                   1,1,
                                   0,2,
                                 }; */
-    static QVector< QVector<qint32> > surroundings;
+    QVector< QVector<qint32> > surroundings;
     bool withinCircle(qint32, qint32);
+    quint32 area;
 
 
 
@@ -37,7 +37,7 @@ public:
     //Bot();
     //using Cell::Cell;
     Bot(quint32 x, quint32 y, World *world);
-    static QVector<QVector<qint32> > initSurroundings();
+    //static QVector<QVector<qint32> > initSurroundings();
 
     quint32 DoStep(qint32, qint32);
     QVector<qint32> * getSurroundings();
