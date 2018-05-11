@@ -8,10 +8,13 @@
 
 enum CELLTYPE {FREE, WALL, BOT, YUMMY, UNKNOWN};
 
-class Cell: public QGraphicsRectItem
+class Cell : public QObject, public QGraphicsRectItem
 {
+    Q_OBJECT
+
 private:
     //QPoint point;
+    //virtual ~Cell() {}
 
 protected:
     QPoint point;
@@ -26,9 +29,13 @@ public:
 
     Cell(quint32 x = 0, quint32 y = 0, CELLTYPE t = FREE);
 
+
     QPoint getPoint() {return point;}
+    qint32 getX() {return point.x();}
+    qint32 getY() {return point.y();}
     void setPoint(QPoint);
     quint32 getType() {return type;}
+    //qint32 getType();
     void setType(quint32);
 };
 

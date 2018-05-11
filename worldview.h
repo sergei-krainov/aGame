@@ -11,8 +11,10 @@
 
 #define EVENTSWIDTH 200
 
-class WorldView
+class WorldView : public QObject
 {
+    Q_OBJECT
+
 private:
     QGraphicsScene * scene;
     QVBoxLayout * mainLayout;
@@ -24,10 +26,14 @@ private:
     //QPlainTextEdit * eventsText;
     World * _world;
     static QHash<qint32, QColor> ColorHash;
+
 public:
     WorldView(World *world);
-    void update();
+
     static QHash<qint32, QColor> ColorHashFill();
+
+public slots:
+    void update();
 };
 
 #endif // WORLDVIEW_H

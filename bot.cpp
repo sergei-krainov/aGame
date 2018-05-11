@@ -6,17 +6,42 @@
 
 //}
 
+bool Bot::withinCircle(qint32 x, qint32 y)
+{
+    return (sqrt(pow(x,2) + pow(y,2)) <= VISIBILITY);
+}
+
 Bot::Bot(quint32 x, quint32 y, World *world)
 {
     this->setPoint(QPoint(x,y));
     this->setType(BOT);
     _world = world;
+
+    //surroundings = new QVector< QVector<qint32> >(12);
+    //surroundings->append(QVector<qint32>{0,-2});
 }
+
+QVector<QVector<qint32> > Bot::initSurroundings()
+{
+    QVector< QVector<qint32> > tmp;// = new QVector< QVector<qint32> >(12);;
+    tmp.reserve(AREA);
+
+    for (qint32 x = -VISIBILITY;x <= VISIBILITY;++x) {
+        for (qint32 y = -VISIBILITY;y <= VISIBILITY;++y) {
+            tmp.append(QVector<qint32>{x,y});
+        }
+    }
+
+    //tmp.append(QVector<qint32>{1,-2});
+
+    return tmp;
+}
+
+QVector<QVector<qint32> > Bot::surroundings = Bot::initSurroundings();
 
 quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
 {
     qint32 x, y, nx, ny;
-    //QPoint * p = this->getPoint();
     Cell * target;
 
 
@@ -26,7 +51,7 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
     nx = x + xbias;
     ny = y + ybias;
 
-    qDebug() << "Here?";
+    //qDebug() << "Here?";
 
     if (nx < 0 || nx > _world->getColumns())
         return 1;
@@ -55,6 +80,38 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
     return 0;
 }
 
+QVector<qint32> *Bot::getSurroundings()
+{
+    qint32 x, y, nx, ny;
+    Cell * tmpCell;
+    QVector<qint32> * vec = new QVector<qint32>;
+    vec->reserve(AREA);
+
+
+    x = this->getX();
+    y = this->getY();
+
+    for (QVector< QVector<qint32> >::const_iterator sit = surroundings.begin(); sit != surroundings.end(); ++sit) {
+
+        nx = x + (*sit)[0];
+        ny = y + (*sit)[1];
+
+        tmpCell = _world->getCell(nx, ny);
+
+        if (tmpCell == NULL || withinCircle(nx,ny) == 0)
+            vec->append(-1);
+        else
+            vec->append(tmpCell->getType());
+
+    }
+
+
+    //for (QVector<qint32>::const_iterator it = vec->begin(); it != vec->end();++it)
+    //    qDebug() << "vec is " << *it;
+
+    return vec;
+}
+
 quint32 Bot::StepRight()
 {
     return (this->DoStep(1,0));
@@ -73,4 +130,21 @@ quint32 Bot::StepUp()
 quint32 Bot::StepDown()
 {
     return (this->DoStep(0, 1));
+}
+
+quint32 Bot::MakeDecision()
+{
+    QVector<qint32> * vec = getSurroundings();
+
+    if (this->StepRight() != 0) {
+        if (this->StepLeft() != 0) {
+            if (this->StepDown() != 0) {
+                this->StepUp();
+            }
+        }
+    }
+
+
+
+    return 0;
 }

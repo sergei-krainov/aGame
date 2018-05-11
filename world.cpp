@@ -37,6 +37,12 @@ World::World()
 
 Cell *World::getCell(qint32 x, qint32 y)
 {
+    if (x < 0 || x > columns)
+        return NULL;
+
+    if (y < 0 || y > rows)
+        return NULL;
+
     return cells[x][y];
 }
 

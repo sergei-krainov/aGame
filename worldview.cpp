@@ -91,11 +91,11 @@ QHash<qint32, QColor> WorldView::ColorHashFill()
 {
     QHash<qint32, QColor> tmp;
 
-    tmp.insert(0, Qt::white);
-    tmp.insert(1, Qt::black);
-    tmp.insert(2, Qt::green);
-    tmp.insert(3, Qt::red);
-    tmp.insert(4, Qt::blue);
+    tmp.insert(FREE, Qt::white);
+    tmp.insert(WALL, Qt::black);
+    tmp.insert(BOT, Qt::green);
+    tmp.insert(YUMMY, Qt::red);
+    tmp.insert(UNKNOWN, Qt::blue);
 
     return tmp;
 }

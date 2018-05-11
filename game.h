@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <QTimer>
 #include "worldview.h"
 #include "bot.h"
 
@@ -8,9 +9,11 @@
 #define HEIGHT 600
 #define TILESIDE 25
 #define NUMCELLS 100
+#define TIMEOUT 1000
 
-class Game
+class Game : public QObject
 {
+
 private:
     //static const quint32 columns = WIDTH/TILESIDE;
     //static const quint32 rows    = HEIGHT/TILESIDE;
@@ -21,6 +24,7 @@ private:
     //QHash<QString, QColor> CellColor;
     World * _world;
     WorldView * _view;
+    QTimer * timer;
 public:
     Game();
     void start();

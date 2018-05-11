@@ -10,7 +10,23 @@ Game::Game()
 
 void Game::start()
 {
+    timer = new QTimer;
+
     Bot * bot1 = new Bot(0,0,_world);
+
+    //QVector<qint32> * sur1;
+
+    //bot1->getSurroundings();
+
+
+    connect(timer, SIGNAL(timeout()),
+            bot1, SLOT(MakeDecision()));
+
+    connect(timer, SIGNAL(timeout()),
+            _view, SLOT(update()));
+
+    timer->start(TIMEOUT);
+
     //bot1->setType(BOT);
     //bot1->getPoint();
 
