@@ -6,6 +6,7 @@
 #include "world.h"
 
 #define VISIBILITY 2
+#define AREA (VISIBILITY*2+1)*(VISIBILITY*2+1)-1
 
 class Bot : public Cell
 {

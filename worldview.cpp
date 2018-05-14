@@ -5,7 +5,7 @@ WorldView::WorldView(World * world)
 {
     _world = world;
 
-    qint32 i, j, tileside, columns, rows, menuHeight;
+    qint32 i, j, tileside, columns, rows, menuHeight, menuWidth;
 
     scene = new QGraphicsScene;
     mainLayout = new QVBoxLayout;
@@ -21,7 +21,7 @@ WorldView::WorldView(World * world)
 
     qDebug() << "Size is " << menuBar->size().height();
     menuHeight = menuBar->size().height();
-
+    menuWidth = menuBar->size().width();
 
 
     tileside = _world->getTileside();
@@ -30,11 +30,17 @@ WorldView::WorldView(World * world)
 
     QPlainTextEdit * eventsText = _world->eventsText;
 
-    for (i = 0; i < columns; ++i) {
-        for (j = 0; j < rows; ++j) {
+    //qDebug() << "Test1" << columns;
+
+    for (j = 0; j < rows; ++j) {
+        for (i = 0; i < columns; ++i) {
+            qDebug() << "View i:j" << i << j;
             Cell * tmp = _world->getCell(i,j);
+            if (tmp == NULL)
+                qDebug() << "Here we go";
 
             tmp->setRect(i * TILESIDE, j * TILESIDE + menuHeight, TILESIDE, TILESIDE);
+
             tmp->setBrush(QBrush(ColorHash[tmp->getType()]));
 
             scene->addItem(tmp);
