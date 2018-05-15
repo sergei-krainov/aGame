@@ -11,13 +11,25 @@ WorldView::WorldView(World * world)
     mainLayout = new QVBoxLayout;
     menuBar = new QMenuBar;
     menuBar->setGeometry(0,0,WIDTH + EVENTSWIDTH,20);
+
     menu = menuBar->addMenu("Test");
     menu2 = menuBar->addMenu("Test2");
     menu3 = menuBar->addMenu("Test3");
     //menu->setGeometry(0,0,100,100);
-    QAction * act = menu->addAction("Test100");
+    QAction * act1 = menu->addAction("Test100");
 
-    scene->addWidget(menuBar);
+    openAct = new QAction(tr("&Open..."), this);
+    openAct->setShortcuts(QKeySequence::Open);
+    openAct->setStatusTip(tr("Open an existing file"));
+    connect(openAct, &QAction::triggered, _world, _world->openMapFile);
+
+    menu->addAction(openAct);
+
+    //scene->addWidget(menuBar);
+    QGraphicsProxyWidget * proxyWidget = scene->addWidget(menuBar);
+    proxyWidget->setZValue(100);
+
+    //scene->addWidget(menuBar);
 
     qDebug() << "Size is " << menuBar->size().height();
     menuHeight = menuBar->size().height();
@@ -77,6 +89,7 @@ WorldView::WorldView(World * world)
 
     view->show();
     //menuBar->show();
+    //scene->addWidget(menuBar);
     //view->setFixedSize(800, 600);
 }
 
@@ -92,6 +105,25 @@ void WorldView::update()
 
     view->update();
 }
+
+/* void WorldView::copen()
+{
+    qDebug() << "Open";
+
+    QString fileName = QFileDialog::getOpenFileName(0, tr("Open the file"),".");
+    QFile file(fileName);
+    //currentFile = fileName;
+    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(0, "Warning", tr("Cannot open file: ") + file.errorString());
+        return;
+    }
+    //setWindowTitle(fileName);
+    QTextStream in(&file);
+    QString text = in.readAll();
+    qDebug() << text;
+    //ui->textEdit->setText(text);
+    file.close();
+} */
 
 QHash<qint32, QColor> WorldView::ColorHashFill()
 {

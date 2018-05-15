@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QGraphicsView>
 #include <QPlainTextEdit>
+#include <QGraphicsProxyWidget>
 #include <QMenuBar>
 #include "world.h"
 
@@ -27,6 +28,8 @@ private:
     World * _world;
     static QHash<qint32, QColor> ColorHash;
 
+    QAction * openAct;
+
 public:
     WorldView(World *world);
 
@@ -34,6 +37,7 @@ public:
 
 public slots:
     void update();
+    //void copen();
 };
 
 #endif // WORLDVIEW_H

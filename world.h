@@ -10,13 +10,15 @@
 #include <QHash>
 #include <QPlainTextEdit>
 #include <QStack>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #define WIDTH 800
 #define HEIGHT 600
 #define TILESIDE 25
 #define NUMCELLS 100
 
-class World
+class World : public QObject
 {
 private:
     static const qint32 columns = WIDTH/TILESIDE;
@@ -46,6 +48,11 @@ public:
     qint32 getTileside() {return TILESIDE;}
     Cell *getCell(qint32, qint32);
     void setCell(Cell*);
+
+    void createMap();
+
+public slots:
+    void openMapFile();
 };
 
 #endif // WORLD_H
