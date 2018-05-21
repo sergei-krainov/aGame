@@ -155,8 +155,8 @@ quint32 Bot::MakeDecision()
     QVector<qint32> * vec = getSurroundings();
 
     if (this->StepRight() != 0) {
-        if (this->StepLeft() != 0) {
-            if (this->StepDown() != 0) {
+        if (this->StepDown() != 0) {
+            if (this->StepLeft() != 0) {
                 this->StepUp();
             }
         }

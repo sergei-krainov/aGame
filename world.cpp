@@ -17,10 +17,10 @@ World::World()
 
     eventsText = new QPlainTextEdit();
 
-    //quint32 tile_map[columns][rows] = {
+    /* quint32 tile_map[columns][rows] = {
     quint32 tile_map[columns*rows] = {
         1,0,1,0,1,0,5,2,3,6
-    };
+    }; */
 
 
 
@@ -28,8 +28,8 @@ World::World()
     for (j = 0; j < rows; ++j) {
         for (i = 0; i < columns; ++i) {
             cells[i][j] = new Cell(i,j);
-            //cells[i][j]->setType(tile_map[j][i]);
-            cells[i][j]->setType(tile_map[i + j*rows]);
+            //cells[i][j]->setType(tile_map[i + j*columns]);
+            cells[i][j]->setType(FREE);
             changedCells->push(cells[i][j]);
         }
     }
@@ -63,9 +63,8 @@ void World::setCell(Cell * cell)
 
 void World::openMapFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(0, "Open the file",".");
+    QString fileName = QFileDialog::getOpenFileName(0, "Open the file",".","*.csv");
     QFile file(fileName);
-    //currentFile = fileName;
     if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
         QMessageBox::warning(0, "Warning", "Cannot open file: " + file.errorString());
         return;
@@ -74,62 +73,40 @@ void World::openMapFile()
     for (qint32 j = 0; j < rows; ++j) {
         for (qint32 i = 0; i < columns; ++i) {
             //cells[i][j] = NULL;
-            //cells[i][j]->setType(tile_map[j][i]);
+            cells[i][j]->setType(FREE);
             //cells[i][j]->setType(tile_map[i + j*rows]);
             //changedCells->push(cells[i][j]);
         }
     }
 
-    /* if (inputFile.open(QIODevice::ReadOnly))
-{
-   QTextStream in(&inputFile);
-   while (!in.atEnd())
-   {
-      QString line = in.readLine();
-      ...
-   }
-   inputFile.close();
-} */
-
     //setWindowTitle(fileName);
     QTextStream in(&file);
 
     quint32 i = 0, j = 0;
-    QVector<quint32> * v = new QVector<quint32>;
+    //QVector<quint32> * v = new QVector<quint32>;
+    //QVector<quint32>::const_iterator it;
 
     while(!in.atEnd()) {
-        //qDebug() << "Line is " << in.readLine();
         QString s = in.readLine();
 
-
-
-
         QStringList list = s.split(",");
-        for (QStringList::const_iterator it = list.begin(); it != list.end(); ++it) {
-            if (*it != "")
-                v->append((*it).toInt());
-        }
-        //v->append(s.split(",").toVector());
-        //v->append(s.split(",").toVector());
-        //list.to
-        qDebug() << "V is " << *v;
-    }
+        for (QStringList::const_iterator it_local = list.begin(); j < rows && (it_local != list.end()); ++it_local) {
+            //qDebug() << "mmm?" << (i + 1)*(j + 1) << (rows * columns);
+            if (*it_local != "") {
+                //qDebug() << "i;j" << i << j;
+                cells[i][j]->setType((*it_local).toInt());
+                changedCells->push(cells[i][j]);
 
-    for (j = 0; j < rows; ++j) {
-        for (i = 0; i < columns; ++i) {
-            //cells[i][j] = new Cell(i,j);
-            //cells[i][j]->setType(tile_map[j][i]);
-            cells[i][j]->setType(v->at(i + j*rows));
-            //qDebug() << "Here we have " << v[i + j*rows];
-            changedCells->push(cells[i][j]);
+                if (i == (columns - 1)) {
+                    j++;
+                    i = 0;
+                }
+                else {
+                    i++;
+                }
+            }
         }
     }
 
-
-
-
-    //QString text = in.readAll();
-    //qDebug() << text;
-    //ui->textEdit->setText(text);
     file.close();
 }

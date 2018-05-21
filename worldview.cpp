@@ -1,6 +1,37 @@
 #include "worldview.h"
 #include <QtDebug>
 
+void WorldView::createActions()
+{
+    openAct = new QAction(tr("&Open..."), this);
+    openAct->setShortcuts(QKeySequence::Open);
+    openAct->setStatusTip(tr("Open an existing file"));
+    //menu->addAction(openAct);
+    connect(openAct, &QAction::triggered, _world, _world->openMapFile);
+
+
+    closeAct = new QAction(tr("&Close..."), this);
+    closeAct->setShortcuts(QKeySequence::Close);
+    closeAct->setStatusTip(tr("Close an app"));
+    //menu->addAction(closeAct);
+    connect(closeAct, &QAction::triggered, this, this->close);
+}
+
+void WorldView::createMenus()
+{
+    menuBar = new QMenuBar;
+    menuBar->setGeometry(0,0,WIDTH + EVENTSWIDTH,20);
+
+    menu = menuBar->addMenu("File");
+    menu->addAction(openAct);
+
+    //menu = menuBar->addMenu("Close");
+    menu->addAction(closeAct);
+
+    menu2 = menuBar->addMenu("Test2");
+    menu3 = menuBar->addMenu("Test3");
+}
+
 WorldView::WorldView(World * world)
 {
     _world = world;
@@ -9,29 +40,19 @@ WorldView::WorldView(World * world)
 
     scene = new QGraphicsScene;
     mainLayout = new QVBoxLayout;
-    menuBar = new QMenuBar;
-    menuBar->setGeometry(0,0,WIDTH + EVENTSWIDTH,20);
+    QGraphicsProxyWidget * proxyWidget = new QGraphicsProxyWidget;
+    QPlainTextEdit * eventsText = new QPlainTextEdit;
 
-    menu = menuBar->addMenu("Test");
-    menu2 = menuBar->addMenu("Test2");
-    menu3 = menuBar->addMenu("Test3");
-    //menu->setGeometry(0,0,100,100);
-    QAction * act1 = menu->addAction("Test100");
+    QFont hnFont("Helvetica [Cronyx]", 12);
 
-    openAct = new QAction(tr("&Open..."), this);
-    openAct->setShortcuts(QKeySequence::Open);
-    openAct->setStatusTip(tr("Open an existing file"));
-    connect(openAct, &QAction::triggered, _world, _world->openMapFile);
 
-    menu->addAction(openAct);
+    createActions();
+    createMenus();
 
-    //scene->addWidget(menuBar);
-    QGraphicsProxyWidget * proxyWidget = scene->addWidget(menuBar);
+
+    proxyWidget = scene->addWidget(menuBar);
     proxyWidget->setZValue(100);
 
-    //scene->addWidget(menuBar);
-
-    qDebug() << "Size is " << menuBar->size().height();
     menuHeight = menuBar->size().height();
     menuWidth = menuBar->size().width();
 
@@ -40,34 +61,32 @@ WorldView::WorldView(World * world)
     columns  = _world->getColumns();
     rows     = _world->getRows();
 
-    QPlainTextEdit * eventsText = _world->eventsText;
-
-    //qDebug() << "Test1" << columns;
+    eventsText = _world->eventsText;
 
     for (j = 0; j < rows; ++j) {
         for (i = 0; i < columns; ++i) {
-            qDebug() << "View i:j" << i << j;
             Cell * tmp = _world->getCell(i,j);
-            if (tmp == NULL)
-                qDebug() << "Here we go";
 
-            tmp->setRect(i * TILESIDE, j * TILESIDE + menuHeight, TILESIDE, TILESIDE);
-
-            tmp->setBrush(QBrush(ColorHash[tmp->getType()]));
-
-            scene->addItem(tmp);
+            if (tmp != NULL) {
+                tmp->setRect(i * TILESIDE, j * TILESIDE + menuHeight, TILESIDE, TILESIDE);
+                tmp->setBrush(QBrush(ColorHash[tmp->getType()]));
+                scene->addItem(tmp);
+            }
+            else {
+                qDebug() << "EFAULT";
+            }
         }
 
     }
 
-    QFont hnFont("Helvetica [Cronyx]", 12);
+    //QFont hnFont("Helvetica [Cronyx]", 12);
     eventsText->setFont(hnFont);
 
-    eventsText->document()->setPlainText("Hello");
-    eventsText->setGeometry(i * tileside, menuHeight, EVENTSWIDTH, rows * tileside);
+    //eventsText->document()->setPlainText("Hello");
+    eventsText->setGeometry(i * tileside + 1, menuHeight, EVENTSWIDTH, rows * tileside);
     //eventsText->setMinimumSize(50, 50);
 
-    eventsText->appendPlainText("Text");
+    //eventsText->appendPlainText("Text");
 
 
 
@@ -76,6 +95,42 @@ WorldView::WorldView(World * world)
 
 
     //scene->addText(eventsText);
+
+    qint32 mainH, mainW, buttonW;
+
+    mainH = rows * tileside + menuHeight;
+    mainW = columns * tileside + EVENTSWIDTH;
+
+    /* Divide by 4, because we have 3 buttons and
+     * in any case form needs some space for fillers */
+    buttonW = mainW / 4;
+
+    qDebug() << "Width is " << mainW;
+
+    buttons = new QGroupBox();
+    buttons->setGeometry(0, mainH, mainW, BUTTONSH);
+    buttonsLayout = new QHBoxLayout;
+    //buttonsLayout->SetFixedSize(mainW, 100);
+
+    startB = new QPushButton("Start");
+    pauseB = new QPushButton("Pause");
+    stopB = new QPushButton("Stop");
+
+    startB->setMinimumSize(buttonW, BUTTONSH);
+    pauseB->setMinimumSize(buttonW, BUTTONSH);
+    stopB->setMinimumSize(buttonW, BUTTONSH);
+    //startB->setGeometry(0, mainH, 1000, 500);
+    //scene->addWidget(startB);
+
+    buttonsLayout->addWidget(startB, 0, Qt::AlignHCenter);
+    buttonsLayout->addWidget(pauseB, 0, Qt::AlignHCenter);
+    buttonsLayout->addWidget(stopB, 0, Qt::AlignCenter);
+    //buttonsLayout->addStretch(1);
+    buttons->setLayout(buttonsLayout);
+
+    scene->addWidget(buttons);
+
+
 
 
 
@@ -95,35 +150,22 @@ WorldView::WorldView(World * world)
 
 void WorldView::update()
 {
-    // _world->getCell(i,j)->setBrush(QBrush(ColorHash1[_world->getCell(i,j)->getType()]));
-    //Cell * tmpCell = _world->changedCells->pop();
-
     while(! _world->changedCells->isEmpty()) {
         Cell * tmpCell = _world->changedCells->pop();
-        tmpCell->setBrush(QBrush(ColorHash[tmpCell->getType()]));
+
+        if (ColorHash.contains(tmpCell->getType()) && ColorHash[tmpCell->getType()].isValid())
+            tmpCell->setBrush(QBrush(ColorHash[tmpCell->getType()]));
+        else
+            tmpCell->setBrush(QBrush(ColorHash[UNKNOWN]));
     }
 
     view->update();
 }
 
-/* void WorldView::copen()
+void WorldView::close()
 {
-    qDebug() << "Open";
-
-    QString fileName = QFileDialog::getOpenFileName(0, tr("Open the file"),".");
-    QFile file(fileName);
-    //currentFile = fileName;
-    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-        QMessageBox::warning(0, "Warning", tr("Cannot open file: ") + file.errorString());
-        return;
-    }
-    //setWindowTitle(fileName);
-    QTextStream in(&file);
-    QString text = in.readAll();
-    qDebug() << text;
-    //ui->textEdit->setText(text);
-    file.close();
-} */
+    QApplication::quit();
+}
 
 QHash<qint32, QColor> WorldView::ColorHashFill()
 {

@@ -26,17 +26,6 @@ private:
     //quint32 map[WIDTH/TILESIDE][HEIGHT/TILESIDE];
     Cell *cells[columns][rows];
 
-    //QStack<Cell*> * changedCells;
-
-
-    //QHash<qint32, QColor> ColorHash;
-
-    //QGraphicsRectItem * cells[columns][rows];
-
-    //QGraphicsScene * scene;
-    //QVBoxLayout * mainLayout;
-    //QGraphicsView * view;
-    //enum tile_type {EMPTY, WALL, BOT, UNKNOWN};
 public:
     World();
 
