@@ -67,12 +67,12 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
     nx = x + xbias;
     ny = y + ybias;
 
-    //qDebug() << "Here?";
+    qDebug() << "Here?" << nx << ny;
 
-    if (nx < 0 || nx > _world->getColumns())
+    if (nx < 0 || nx >= _world->getColumns())
         return 1;
 
-    if (ny < 0 || ny > _world->getRows())
+    if (ny < 0 || ny >= _world->getRows())
         return 1;
 
     target = _world->getCell(nx, ny);
@@ -132,6 +132,7 @@ QVector<qint32> *Bot::getSurroundings()
 
 quint32 Bot::StepRight()
 {
+    //qDebug() << "Here?";
     return (this->DoStep(1,0));
 }
 
@@ -154,6 +155,8 @@ quint32 Bot::MakeDecision()
 {
     QVector<qint32> * vec = getSurroundings();
 
+    qDebug() << "Test1" << this->getX() << this->getY();
+
     if (this->StepRight() != 0) {
         if (this->StepDown() != 0) {
             if (this->StepLeft() != 0) {
@@ -161,6 +164,10 @@ quint32 Bot::MakeDecision()
             }
         }
     }
+
+    qDebug() << "Test2";
+
+
 
 
 

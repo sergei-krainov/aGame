@@ -79,22 +79,11 @@ WorldView::WorldView(World * world)
 
     }
 
-    //QFont hnFont("Helvetica [Cronyx]", 12);
     eventsText->setFont(hnFont);
-
-    //eventsText->document()->setPlainText("Hello");
     eventsText->setGeometry(i * tileside + 1, menuHeight, EVENTSWIDTH, rows * tileside);
-    //eventsText->setMinimumSize(50, 50);
-
-    //eventsText->appendPlainText("Text");
-
-
 
 
     scene->addWidget(_world->eventsText);
-
-
-    //scene->addText(eventsText);
 
     qint32 mainH, mainW, buttonW;
 
@@ -105,12 +94,9 @@ WorldView::WorldView(World * world)
      * in any case form needs some space for fillers */
     buttonW = mainW / 4;
 
-    qDebug() << "Width is " << mainW;
-
     buttons = new QGroupBox();
     buttons->setGeometry(0, mainH, mainW, BUTTONSH);
     buttonsLayout = new QHBoxLayout;
-    //buttonsLayout->SetFixedSize(mainW, 100);
 
     startB = new QPushButton("Start");
     pauseB = new QPushButton("Pause");
@@ -119,16 +105,17 @@ WorldView::WorldView(World * world)
     startB->setMinimumSize(buttonW, BUTTONSH);
     pauseB->setMinimumSize(buttonW, BUTTONSH);
     stopB->setMinimumSize(buttonW, BUTTONSH);
-    //startB->setGeometry(0, mainH, 1000, 500);
-    //scene->addWidget(startB);
 
-    buttonsLayout->addWidget(startB, 0, Qt::AlignHCenter);
-    buttonsLayout->addWidget(pauseB, 0, Qt::AlignHCenter);
-    buttonsLayout->addWidget(stopB, 0, Qt::AlignCenter);
+    buttonsLayout->addWidget(startB);
+    buttonsLayout->addWidget(pauseB);
+    buttonsLayout->addWidget(stopB);
     //buttonsLayout->addStretch(1);
     buttons->setLayout(buttonsLayout);
 
     scene->addWidget(buttons);
+
+    connect(pauseB, QAbstractButton::clicked, this, pause);
+    connect(startB, QAbstractButton::clicked, this, start);
 
 
 
@@ -167,6 +154,17 @@ void WorldView::close()
     QApplication::quit();
 }
 
+void WorldView::pause()
+{
+    //qDebug() << "Pressed";
+    emit pauseSignal();
+}
+
+void WorldView::start()
+{
+    emit startSignal();
+}
+
 QHash<qint32, QColor> WorldView::ColorHashFill()
 {
     QHash<qint32, QColor> tmp;
@@ -181,3 +179,4 @@ QHash<qint32, QColor> WorldView::ColorHashFill()
 }
 
 QHash<qint32, QColor> WorldView::ColorHash = WorldView::ColorHashFill();
+

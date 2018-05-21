@@ -29,6 +29,8 @@ public:
     Game();
     void start();
     //Cell *cells[columns][rows];
+public slots:
+    void pause();
 };
 
 #endif // GAME_H

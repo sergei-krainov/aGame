@@ -43,6 +43,10 @@ private:
     void createActions();
     void createMenus();
 
+signals:
+    void pauseSignal();
+    void startSignal();
+
 public:
     WorldView(World *world);
 
@@ -52,6 +56,8 @@ public slots:
     void update();
     //void copen();
     void close();
+    void pause();
+    void start();
 };
 
 #endif // WORLDVIEW_H

@@ -34,6 +34,21 @@ World::World()
         }
     }
 
+    /* timer = new QTimer;
+
+    Bot * bot1 = new Bot(0,0,_world);
+
+
+    connect(timer, SIGNAL(timeout()),
+            bot1, SLOT(MakeDecision()));
+
+    connect(timer, SIGNAL(timeout()),
+            _view, SLOT(update()));
+
+
+
+    timer->start(TIMEOUT); */
+
 }
 
 Cell *World::getCell(qint32 x, qint32 y)

@@ -12,11 +12,13 @@
 #include <QStack>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QTimer>
 
 #define WIDTH 800
 #define HEIGHT 600
 #define TILESIDE 25
 #define NUMCELLS 100
+#define TIMEOUT 1000
 
 class World : public QObject
 {
@@ -25,6 +27,7 @@ private:
     static const qint32 rows    = HEIGHT/TILESIDE;
     //quint32 map[WIDTH/TILESIDE][HEIGHT/TILESIDE];
     Cell *cells[columns][rows];
+    QTimer * timer;
 
 public:
     World();
@@ -42,6 +45,7 @@ public:
 
 public slots:
     void openMapFile();
+    void pause();
 };
 
 #endif // WORLD_H
