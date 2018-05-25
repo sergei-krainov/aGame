@@ -13,6 +13,7 @@ World::World()
     //ColorHash.insert(3, Qt::blue);
 
     changedCells = new QStack<Cell*>;
+    _eventsText = new QString;
     //changedCells->resize(rows*columns);
 
     eventsText = new QPlainTextEdit();

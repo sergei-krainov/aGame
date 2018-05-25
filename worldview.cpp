@@ -146,6 +146,8 @@ void WorldView::update()
             tmpCell->setBrush(QBrush(ColorHash[UNKNOWN]));
     }
 
+    _world->eventsText->appendPlainText(*_world->_eventsText);
+    _world->_eventsText->clear();
     view->update();
 }
 

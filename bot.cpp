@@ -17,6 +17,8 @@ Bot::Bot(quint32 x, quint32 y, World *world)
     this->setType(BOT);
     _world = world;
 
+    _world->setCell(this);
+
     //area = pow(VISIBILITY*2,2);
 
     qDebug() << "Area is " << AREA;
@@ -67,7 +69,7 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
     nx = x + xbias;
     ny = y + ybias;
 
-    qDebug() << "Here?" << nx << ny;
+    //qDebug() << "Here?" << nx << ny;
 
     if (nx < 0 || nx >= _world->getColumns())
         return 1;
@@ -87,7 +89,7 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
 
         _world->setCell(this);
 
-        _world->eventsText->appendPlainText("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
+        //_world->eventsText->appendPlainText("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
     }
     else {
         return 1;
@@ -121,12 +123,6 @@ QVector<qint32> *Bot::getSurroundings()
 
     }
 
-
-    //for (QVector<qint32>::const_iterator it = vec->begin(); it != vec->end();++it)
-    //    qDebug() << "vec is " << *it;
-
-    qDebug() << "Ended!";
-
     return vec;
 }
 
@@ -155,7 +151,7 @@ quint32 Bot::MakeDecision()
 {
     QVector<qint32> * vec = getSurroundings();
 
-    qDebug() << "Test1" << this->getX() << this->getY();
+    qDebug() << "MakeDecision" << this->getX() << this->getY();
 
     if (this->StepRight() != 0) {
         if (this->StepDown() != 0) {
@@ -165,10 +161,8 @@ quint32 Bot::MakeDecision()
         }
     }
 
-    qDebug() << "Test2";
-
-
-
+    //_world->eventsText->appendPlainText("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
+    _world->_eventsText->append("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
 
 
     return 0;

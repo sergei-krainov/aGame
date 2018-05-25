@@ -34,6 +34,7 @@ public:
 
     QPlainTextEdit * eventsText;
     QStack<Cell*> * changedCells;
+    QString * _eventsText;
 
     qint32 getColumns() {return columns;}
     qint32 getRows() {return rows;}

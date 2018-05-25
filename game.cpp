@@ -30,7 +30,6 @@ void Game::start()
 
     //bot1->getSurroundings();
 
-
     connect(timer, SIGNAL(timeout()),
             bot1, SLOT(MakeDecision()));
 
