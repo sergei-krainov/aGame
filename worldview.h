@@ -11,6 +11,8 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QPixmap>
+#include <QColorDialog>
 #include "world.h"
 
 #define EVENTSWIDTH 200
@@ -42,6 +44,7 @@ private:
 
     void createActions();
     void createMenus();
+    bool running;
 
 signals:
     void pauseSignal();

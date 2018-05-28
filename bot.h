@@ -41,6 +41,7 @@ public:
     //static QVector<QVector<qint32> > initSurroundings();
 
     quint32 DoStep(qint32, qint32);
+    void fillSurroundings();
     QVector<qint32> * getSurroundings();
 
 public slots:

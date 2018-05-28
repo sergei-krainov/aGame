@@ -22,6 +22,8 @@
 
 class World : public QObject
 {
+    Q_OBJECT
+
 private:
     static const qint32 columns = WIDTH/TILESIDE;
     static const qint32 rows    = HEIGHT/TILESIDE;
@@ -44,9 +46,12 @@ public:
 
     void createMap();
 
+signals:
+    void newMap();
+
 public slots:
     void openMapFile();
-    void pause();
+    //void pause();
 };
 
 #endif // WORLD_H

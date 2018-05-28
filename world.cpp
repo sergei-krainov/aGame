@@ -89,7 +89,7 @@ void World::openMapFile()
     for (qint32 j = 0; j < rows; ++j) {
         for (qint32 i = 0; i < columns; ++i) {
             //cells[i][j] = NULL;
-            cells[i][j]->setType(FREE);
+            //cells[i][j]->setType(FREE);
             //cells[i][j]->setType(tile_map[i + j*rows]);
             //changedCells->push(cells[i][j]);
         }
@@ -107,11 +107,13 @@ void World::openMapFile()
 
         QStringList list = s.split(",");
         for (QStringList::const_iterator it_local = list.begin(); j < rows && (it_local != list.end()); ++it_local) {
-            //qDebug() << "mmm?" << (i + 1)*(j + 1) << (rows * columns);
             if (*it_local != "") {
-                //qDebug() << "i;j" << i << j;
-                cells[i][j]->setType((*it_local).toInt());
-                changedCells->push(cells[i][j]);
+                //qDebug() << "i;j" << i << j << cells[i][j]->getType();
+                if (cells[i][j]->getType() != BOT) {
+                    cells[i][j]->setType((*it_local).toInt());
+                    changedCells->push(cells[i][j]);
+
+                }
 
                 if (i == (columns - 1)) {
                     j++;
@@ -125,4 +127,6 @@ void World::openMapFile()
     }
 
     file.close();
+
+    emit newMap();
 }

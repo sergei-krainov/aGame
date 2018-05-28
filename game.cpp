@@ -7,7 +7,7 @@ Game::Game()
     _world = new World;
     _view = new WorldView(_world);
 
-    timer = new QTimer;
+    timer = new QTimer();
     timer->setInterval(TIMEOUT);
 
     connect(timer, SIGNAL(timeout()),
@@ -24,7 +24,7 @@ void Game::start()
 {
     //timer = new QTimer;
 
-    Bot * bot1 = new Bot(31,2,_world);
+    Bot * bot1 = new Bot(4,2,_world);
 
     //QVector<qint32> * sur1;
 

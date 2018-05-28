@@ -15,6 +15,8 @@ void WorldView::createActions()
     closeAct->setStatusTip(tr("Close an app"));
     //menu->addAction(closeAct);
     connect(closeAct, &QAction::triggered, this, this->close);
+
+    connect(_world, World::newMap, this, this->update);
 }
 
 void WorldView::createMenus()
@@ -98,9 +100,33 @@ WorldView::WorldView(World * world)
     buttons->setGeometry(0, mainH, mainW, BUTTONSH);
     buttonsLayout = new QHBoxLayout;
 
+    /* QPixmap pixmap("image_path");
+    QIcon ButtonIcon(pixmap);
+    button->setIcon(ButtonIcon);
+    button->setIconSize(pixmap.rect().size()); */
+
+    //QPixmap pixmap("pics/start.jpg");
+    //QIcon ButtonIcon(pixmap);
+    //startB->setIcon(ButtonIcon);
+    //startB->setIconSize(pixmap.rect().size());
+
+    /* QColor col = QColorDialog::getColor(Qt::white, this);
+    if(col.isValid()) {
+    QString qss = QString("background-color: %1").arg(col.name());
+    ui->pushButton->setStyleSheet(qss);*/
+
     startB = new QPushButton("Start");
+
+    startB->setStyleSheet("background-color: green;font-size: 20px");
+
+    //startB = new QPushButton()
+    //startB = new QPushButton(QIcon(QPixmap("pics/start.jpg")), NULL);
+    //startB->setIconSize(QSize(100,100));
+
     pauseB = new QPushButton("Pause");
     stopB = new QPushButton("Stop");
+
+
 
     startB->setMinimumSize(buttonW, BUTTONSH);
     pauseB->setMinimumSize(buttonW, BUTTONSH);
@@ -130,6 +156,8 @@ WorldView::WorldView(World * world)
     mainLayout->addWidget(view);
 
     view->show();
+
+    running = false;
     //menuBar->show();
     //scene->addWidget(menuBar);
     //view->setFixedSize(800, 600);
@@ -164,7 +192,19 @@ void WorldView::pause()
 
 void WorldView::start()
 {
-    emit startSignal();
+    if (! running) {
+        startB->setStyleSheet("background-color: red;font-size: 20px");
+        startB->setText("Pause");
+        emit startSignal();
+        running = true;
+    }
+    else {
+        startB->setStyleSheet("background-color: green;font-size: 20px");
+        startB->setText("Start");
+        emit pauseSignal();
+        running = false;
+    }
+
 }
 
 QHash<qint32, QColor> WorldView::ColorHashFill()

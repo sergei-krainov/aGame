@@ -25,12 +25,14 @@ Bot::Bot(quint32 x, quint32 y, World *world)
 
     surroundings.reserve(AREA);
 
-    for (qint32 x = -VISIBILITY;x <= VISIBILITY;++x) {
+    fillSurroundings();
+
+    /* for (qint32 x = -VISIBILITY;x <= VISIBILITY;++x) {
         for (qint32 y = -VISIBILITY;y <= VISIBILITY;++y) {
             if (withinCircle(x,y))
                 surroundings.append(QVector<qint32>{x,y});
         }
-    }
+    } */
 
     //surroundings = new QVector< QVector<qint32> >(12);
     //surroundings->append(QVector<qint32>{0,-2});
@@ -95,7 +97,27 @@ quint32 Bot::DoStep(qint32 xbias, qint32 ybias)
         return 1;
     }
 
+    QString t("Bot is now at " + QString::number(nx) + " " + QString::number(ny) + "\n");
+    /* t.append(QString::number(nx));
+    t.append(" ");
+    t.append(QString::number(ny));
+    t.append("\n");*/
+    _world->_eventsText->append(QString("Bot was at " + QString::number(x) + " " + QString::number(y) + "\n"));
+    _world->_eventsText->append(QString("Bot is now at " + QString::number(nx) + " " + QString::number(ny) + "\n"));
+
     return 0;
+}
+
+void Bot::fillSurroundings()
+{
+    surroundings.clear();
+
+    for (qint32 x = -VISIBILITY;x <= VISIBILITY;++x) {
+        for (qint32 y = -VISIBILITY;y <= VISIBILITY;++y) {
+            if (withinCircle(x,y))
+                surroundings.append(QVector<qint32>{x,y});
+        }
+    }
 }
 
 QVector<qint32> *Bot::getSurroundings()
@@ -128,23 +150,62 @@ QVector<qint32> *Bot::getSurroundings()
 
 quint32 Bot::StepRight()
 {
-    //qDebug() << "Here?";
-    return (this->DoStep(1,0));
+    quint32 result = this->DoStep(1,0);
+    _world->_eventsText->append("Step right: ");
+
+    if (result != 0) {
+        _world->_eventsText->append("fail\n");
+        return result;
+    }
+    else {
+        _world->_eventsText->append("success\n");
+        return result;
+    }
 }
 
 quint32 Bot::StepLeft()
 {
-    return (this->DoStep(-1,0));
+    quint32 result = this->DoStep(-1,0);
+    _world->_eventsText->append("Step left: ");
+
+    if (result != 0) {
+        _world->_eventsText->append("fail\n");
+        return result;
+    }
+    else {
+        _world->_eventsText->append("success\n");
+        return result;
+    }
 }
 
 quint32 Bot::StepUp()
 {
-    return (this->DoStep(0, -1));
+    quint32 result = this->DoStep(0, -1);
+    _world->_eventsText->append("Step up: ");
+
+    if (result != 0) {
+        _world->_eventsText->append("fail\n");
+        return result;
+    }
+    else {
+        _world->_eventsText->append("success\n");
+        return result;
+    }
 }
 
 quint32 Bot::StepDown()
 {
-    return (this->DoStep(0, 1));
+    quint32 result = this->DoStep(0, 1);
+    _world->_eventsText->append("Step down: ");
+
+    if (result != 0) {
+        _world->_eventsText->append("fail\n");
+        return result;
+    }
+    else {
+        _world->_eventsText->append("success\n");
+        return result;
+    }
 }
 
 quint32 Bot::MakeDecision()
@@ -162,7 +223,7 @@ quint32 Bot::MakeDecision()
     }
 
     //_world->eventsText->appendPlainText("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
-    _world->_eventsText->append("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
+    //_world->_eventsText->append("Just did the step!The QPlainTextEdit class provides a widget that is used to edit and display plain text\n");
 
 
     return 0;
